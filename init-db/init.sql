@@ -1,0 +1,1 @@
+CREATE DATABASE ventas_test;
