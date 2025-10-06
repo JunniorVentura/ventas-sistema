@@ -9,6 +9,10 @@
   font-weight: 400;
 }
 
+.nav-link.text-dark:hover {
+  background-color: #f8f9fa;
+}
+
 body {
   margin: 0;
   min-width: 320px;

@@ -160,9 +160,9 @@ export default function Pedidos() {
                 <td>{p.id}</td>
                 <td>{p.cliente}</td>
                 <td>{p.usuario}</td>
-                <td>S/.{p.total}</td>
+                <td>S/.{p.total}</td>   
                 <td>{p.estado_pedido}</td>
-                <td>{p.pago?.metodo_pago ? p.pago?.metodo_pago : 'No especificado'}</td>
+                <td>{p.pagos?.metodo_pago ? p.pagos?.metodo_pago : 'No especificado'}</td>
                 <td>
                   {p.boleta_emitida ? ' Boleta' : ''}
                   {p.factura_emitida ? ' Factura' : ''}

@@ -192,7 +192,7 @@ export default function Pagos() {
                           <button className="btn btn-sm btn-success me-2" onClick={() => abrirModal(p,'verificar')}>
                             Verificar
                           </button>
-                          <button className="btn btn-sm btn-success me-2" onClick={() => abrirModal(p,'rechazar')}>
+                          <button className="btn btn-sm btn-danger me-2" onClick={() => abrirModal(p,'rechazar')}>
                             Rechazar
                           </button>
                       </>

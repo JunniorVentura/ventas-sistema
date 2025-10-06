@@ -63,10 +63,10 @@ export default function Facturas() {
   // Filtro primero
   const pedidosEmitibles = pedidos.filter(p =>
     p.estado_pedido === 'pagado' &&
-    p.pago?.estado_pago === 'verificado' &&
-    !facturas.find(f => f.pedido_id === p.id)
+    p.pagos?.estado_pago === 'verificado' &&
+    !p.factura_emitida
   );
-
+  
   const handleEmitir = (pedido) => {
     if (!puedeEmitir) {
       return toast.error('No tienes permiso para emitir facturas');
@@ -260,16 +260,16 @@ export default function Facturas() {
             {pedidosPaginados.map(p => (
               <tr key={p.id}>
                 <td>{p.id}</td>
-                <td>{p.cliente?.nombre}</td>
+                <td>{p.cliente}</td>
                 <td>S/. {p.total}</td>
-                <td>{p.pago?.estado_pago}</td>
+                <td>{p.pagos?.estado_pago}</td>
                 <td>
-                    {boletas.some(f => f.pedido_id === p.id) ? (
-                      <span className="badge bg-success">Sí</span>
-                    ) : (
-                      <span className="badge bg-secondary">No</span>
-                    )}
-                  </td>
+                  {p.boleta_emitida ? (
+                    <span className="badge bg-success">Sí</span>
+                  ) : (
+                    <span className="badge bg-secondary">No</span>
+                  )}
+                </td>
                 <td>
                   {puedeEmitir && (
                     <button className="btn btn-sm btn-success" onClick={() => handleEmitir(p)}>

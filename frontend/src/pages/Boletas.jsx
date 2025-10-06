@@ -59,13 +59,12 @@ export default function Boletas() {
     }
   };
 
-  // Filtro primero
   const pedidosEmitibles = pedidos.filter(p =>
     p.estado_pedido === 'pagado' &&
-    p.pago?.estado_pago === 'verificado' &&
-    !boletas.find(b => b.pedido_id === p.id)
+    p.pagos?.estado_pago === 'verificado' &&
+    !p.boleta_emitida
   );
-
+  
   const handleEmitir = (pedido) => {
     if (!puedeEmitir) {
       return toast.error('No tienes permiso para emitir boletas');
@@ -251,11 +250,11 @@ export default function Boletas() {
               {pedidosPaginados.map(p => (
                 <tr key={p.id}>
                   <td>{p.id}</td>
-                  <td>{p.cliente?.nombre}</td>
+                  <td>{p.cliente}</td>
                   <td>S/. {p.total}</td>
-                  <td>{p.pago?.estado_pago}</td>
+                  <td>{p.pagos?.estado_pago}</td>
                   <td>
-                    {facturas.some(f => f.pedido_id === p.id) ? (
+                    {p.factura_emitida ? (
                       <span className="badge bg-success">Sí</span>
                     ) : (
                       <span className="badge bg-secondary">No</span>
