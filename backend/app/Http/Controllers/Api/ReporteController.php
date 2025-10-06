@@ -9,6 +9,8 @@ use App\Models\Pago;
 use App\Models\Factura;
 use App\Models\Boleta;
 use App\Models\DetallePedido;
+use App\Models\Cliente;
+use App\Models\Producto;
 use Illuminate\Support\Facades\DB;
 
 class ReporteController extends Controller
@@ -27,22 +29,25 @@ class ReporteController extends Controller
             ->get();
     }    
 
-    //productos mas vendidos
-    public function topProductosVendidos()
+    // Productos más vendidos con filtro de año y mes
+    public function topProductosVendidos(Request $request)
     {
-        return DetallePedido::with('producto')
-            ->selectRaw('producto_id, SUM(cantidad) as total_vendido')
-            ->groupBy('producto_id')
+        $productos = DetallePedido::selectRaw('productos.id as producto_id, productos.nombre, SUM(detalle_pedidos.cantidad) as total_vendido')
+            ->join('pedidos', 'detalle_pedidos.pedido_id', '=', 'pedidos.id')
+            ->join('productos', 'detalle_pedidos.producto_id', '=', 'productos.id')
+            ->where('pedidos.estado_pedido', 'pagado')
+            ->when($request->filled('anio') && is_numeric($request->anio), function ($query) use ($request) {
+                return $query->whereYear('pedidos.fecha', (int) $request->anio);
+            })
+            ->when($request->filled('mes') && is_numeric($request->mes), function ($query) use ($request) {
+                return $query->whereMonth('pedidos.fecha', (int) $request->mes);
+            })
+            ->groupBy('productos.id', 'productos.nombre')  // PostgreSQL requiere todos los SELECT que no estén agregados aquí
             ->orderByDesc('total_vendido')
             ->take(10)
-            ->get()
-            ->map(function ($detalle) {
-                return [
-                    'producto_id' => $detalle->producto_id,
-                    'nombre' => $detalle->producto->nombre ?? 'Desconocido',
-                    'total_vendido' => $detalle->total_vendido,
-                ];
-            });
+            ->get();
+    
+        return response()->json($productos);
     }
 
     public function pagosPorEstado($estado)
@@ -99,5 +104,62 @@ class ReporteController extends Controller
         }
     }
     
+    public function ventasPorMes($anio)
+    {
+        try {
+            if (!is_numeric($anio) || $anio < 2000 || $anio > date('Y') + 1) {
+                return response()->json(['error' => 'Año inválido'], 400);
+            }
+    
+            $ventas = Pedido::selectRaw('EXTRACT(MONTH FROM fecha) as mes, SUM(total) as total_ventas')
+                ->whereYear('fecha', $anio)
+                ->where('estado_pedido', 'pagado')
+                ->groupByRaw('EXTRACT(MONTH FROM fecha)')
+                ->orderByRaw('EXTRACT(MONTH FROM fecha)')
+                ->get()
+                ->keyBy('mes');
+    
+            $resultados = [];
+            for ($mes = 1; $mes <= 12; $mes++) {
+                $resultados[] = [
+                    'mes' => $mes,
+                    'total_ventas' => isset($ventas[$mes]) ? (float) $ventas[$mes]->total_ventas : 0,
+                ];
+            }
+    
+            return response()->json($resultados);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }    
+        
+    // Clientes registrados por mes
+    public function clientesPorMes($anio)
+    {
+        try {
+            if (!is_numeric($anio) || $anio < 2000 || $anio > date('Y') + 1) {
+                return response()->json(['error' => 'Año inválido'], 400);
+            }
+
+            $clientes = Cliente::selectRaw('EXTRACT(MONTH FROM created_at) as mes, COUNT(*) as total_clientes')
+                ->whereYear('created_at', $anio)
+                ->groupByRaw('EXTRACT(MONTH FROM created_at)')
+                ->orderByRaw('EXTRACT(MONTH FROM created_at)')
+                ->get()
+                ->keyBy('mes');
+
+            $resultados = [];
+            for ($mes = 1; $mes <= 12; $mes++) {
+                $resultados[] = [
+                    'mes' => $mes,
+                    'total_clientes' => isset($clientes[$mes]) ? (int) $clientes[$mes]->total_clientes : 0,
+                ];
+            }
+
+            return response()->json($resultados);
+        } catch (\Exception $e) {
+            return response()->json(['error' => $e->getMessage()], 500);
+        }
+    }
 
 }

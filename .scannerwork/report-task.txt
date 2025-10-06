@@ -1,0 +1,6 @@
+projectKey=sistema_ventas
+serverUrl=http://localhost:9000
+serverVersion=25.7.0.110598
+dashboardUrl=http://localhost:9000/dashboard?id=sistema_ventas
+ceTaskId=086147c0-2ea0-4eef-b927-462cf178c26b
+ceTaskUrl=http://localhost:9000/api/ce/task?id=086147c0-2ea0-4eef-b927-462cf178c26b

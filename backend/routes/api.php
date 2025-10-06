@@ -55,8 +55,10 @@ Route::middleware(['auth:sanctum'])->group(function () {
     // REPORTES
     Route::middleware('permiso:ver_reportes')->group(function () {
         Route::get('/reportes/ventas', [ReporteController::class, 'ventasPorFecha']);
+        Route::get('/reportes/ventas-por-mes/{anio}', [ReporteController::class, 'ventasPorMes']);
         Route::get('/reportes/productos-mas-vendidos', [ReporteController::class, 'topProductosVendidos']);
         Route::get('/reportes/pagos/{estado}', [ReporteController::class, 'pagosPorEstado']);
+        Route::get('/reportes/clientes-por-mes/{anio}', [ReporteController::class, 'clientesPorMes']);
         Route::get('/reportes/pdf/ventas', [ReportePdfController::class, 'ventasPorFecha']);
         Route::get('/reportes/pdf/productos-mas-vendidos', [ReportePdfController::class, 'productosMasVendidos']);
         Route::get('/reportes/pdf/stock-bajo', [ReportePdfController::class, 'stockBajo']);

@@ -23,6 +23,7 @@ class RolPermisoSeeder extends Seeder
                 'crear_boletas', 'ver_boletas', 'editar_boletas',  'eliminar_boletas',
                 'registrar_pagos', 'verificar_pagos', 'ver_pagos',
                 'ver_stock',
+                'ver_reportes',
                 'ver_categorias',
                 'emitir_documento',
             ])->pluck('id')->toArray(),

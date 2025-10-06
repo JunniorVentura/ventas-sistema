@@ -8,7 +8,7 @@ use App\Models\Log;
 use Illuminate\Http\Request;
 
 class PedidoController extends Controller
-{
+{ 
     // GET /api/pedidos
     public function index()
     {
@@ -30,7 +30,7 @@ class PedidoController extends Controller
             ];
         });
     }
-
+   
     // POST /api/pedidos
     public function store(Request $request)
     {
