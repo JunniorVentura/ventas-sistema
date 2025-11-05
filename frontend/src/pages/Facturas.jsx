@@ -74,8 +74,10 @@ export default function Facturas() {
 
     /*if (!pedido.cliente?.ruc || !pedido.cliente?.razon_social) {*/
       setPedidoSeleccionado(pedido);
-      setRucCliente(pedido.cliente?.ruc || '');
-      setRazonSocial(pedido.cliente?.razon_social || '');
+      /*setRucCliente(pedido.cliente?.ruc || '');
+      setRazonSocial(pedido.cliente?.razon_social || '');*/
+      setRucCliente(pedido.ruc || '');
+      setRazonSocial(pedido.razon_social || '');
       setMostrarModal(true);
     /*} else {
       emitirFactura(pedido);
