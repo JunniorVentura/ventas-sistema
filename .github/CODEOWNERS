@@ -1,0 +1,6 @@
+# Archivo: .github/CODEOWNERS
+# ---------------------------------
+# Este archivo define quién puede aprobar Pull Requests.
+# En este caso, solo el usuario @JunniorVentura podrá aprobar cualquier cambio.
+
+* @JunniorVentura
