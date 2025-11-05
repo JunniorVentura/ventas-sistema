@@ -21,6 +21,7 @@ class PagoController extends Controller
     {
         $pagos = Pago::with(['pedido.cliente', 'pedido.usuario', 'pedido.boleta', 'pedido.factura'])
             ->where('estado', true)
+            ->orderBy('pedido_id', 'asc') // 🔹 Ordena por pedido_id
             ->get();
     
         return $pagos->map(function ($pago) {
