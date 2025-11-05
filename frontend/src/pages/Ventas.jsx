@@ -353,7 +353,7 @@ export default function Ventas() {
             <option value="">-- Selecciona Producto --</option>
             {productosFiltrados.map(p => (
               <option key={p.id} value={p.id}>
-                {p.nombre} (Stock: {p.stock?.cantidad}) - S/.{parseFloat(p.precio).toFixed(2)}
+                {p.nombre} (Stock: {p.stock?.cantidad}) - S/. {parseFloat(p.precio).toFixed(2)}
               </option>
             ))}
           </select>
@@ -373,7 +373,7 @@ export default function Ventas() {
       <table className="table table-striped">
         <thead>
           <tr>
-            <th>Producto</th><th>Cant.</th><th>Precio U.</th><th>Subtotal</th><th></th>
+            <th>Producto</th><th>Cantidad </th><th>Precio Unitario</th><th>Subtotal</th><th></th>
           </tr>
         </thead>
         <tbody>
@@ -381,8 +381,8 @@ export default function Ventas() {
             <tr key={it.producto_id}>
               <td>{it.nombre}</td>
               <td>{it.cantidad}</td>
-              <td>S/.{it.precio_unitario.toFixed(2)}</td>
-              <td>S/.{(it.precio_unitario * it.cantidad).toFixed(2)}</td>
+              <td>S/. {it.precio_unitario.toFixed(2)}</td>
+              <td>S/. {(it.precio_unitario * it.cantidad).toFixed(2)}</td>
               <td><button className="btn btn-danger btn-sm" onClick={() => removeItem(it.producto_id)}>✕</button></td>
             </tr>
           ))}
@@ -392,7 +392,7 @@ export default function Ventas() {
 
       {/* Total y Registro de Venta */}
       <div className="mb-4">
-        <h5>Total: S/.{total.toFixed(2)}</h5>
+        <h5>Total: S/. {total.toFixed(2)}</h5>
 
         {/* Botón Registrar sin pago */}
         <button
@@ -410,11 +410,18 @@ export default function Ventas() {
             value={metodoPago}
             onChange={(e) => setMetodoPago(e.target.value)}
             disabled={!clienteSeleccionado || detalle.length === 0}
+            style={{ fontWeight: 'bold' }}
           >
             <option value="">-- Seleccionar Método de Pago --</option>
-            <option value="efectivo">Efectivo</option>
-            <option value="yape">Yape</option>
-            <option value="transferencia">Transferencia</option>
+            <option value="efectivo" style={{ color: 'green' }}>
+              Efectivo
+            </option>
+            <option value="yape" style={{ color: 'purple' }}>
+              Yape
+            </option>
+            <option value="transferencia" style={{ color: 'blue' }}>
+              Transferencia
+            </option>
           </Form.Select>
         </div>
 
