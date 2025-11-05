@@ -72,7 +72,8 @@ export default function Boletas() {
 
     /*if (!pedido.cliente?.dni) {*/
       setPedidoSeleccionado(pedido);
-      setDniCliente(pedido.cliente?.dni || '');
+      /*setDniCliente(pedido.cliente?.dni || '');*/
+      setDniCliente(pedido.dni || '');
       setMostrarModalDNI(true);
     /*} else {
       emitirBoleta(pedido);
@@ -312,7 +313,7 @@ export default function Boletas() {
                   maxLength={8}
                   value={dniCliente}
                   onChange={e => setDniCliente(e.target.value)}
-                  placeholder="Ej. 70845321"
+                  placeholder=""
                 />
               </div>
               <div className="modal-footer">
