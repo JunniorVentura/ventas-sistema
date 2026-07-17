@@ -20,9 +20,11 @@ class PedidoController extends Controller
             return [
                 'id' => $pedido->id,
                 'cliente' => $pedido->cliente->nombre ?? 'Cliente',
+                'cliente_id' => $pedido->cliente->id ?? 'cliente_id',
                 'dni' => $pedido->cliente->dni ?? 'dni',
                 'ruc' => $pedido->cliente->ruc ?? 'ruc',
                 'razon_social' => $pedido->cliente->razon_social ?? 'razon_social',
+                'fecha' => $pedido->fecha,                
                 'usuario' => $pedido->usuario->nombre ?? 'Usuario',
                 'total' => $pedido->total,
                 'estado_pedido' => $pedido->estado_pedido,

@@ -93,20 +93,29 @@ export default function Facturas() {
     }
 
     try {
-      await api.put(`/clientes/${pedidoSeleccionado.cliente.id}`, {
+      await api.put(`/clientes/${pedidoSeleccionado.cliente_id}`, {
         ruc: rucCliente,
         razon_social: razonSocial
       });
 
       setMostrarModal(false);
-      emitirFactura({
+      /*emitirFactura({
         ...pedidoSeleccionado,
         cliente: {
           ...pedidoSeleccionado.cliente,
           ruc: rucCliente,
           razon_social: razonSocial
         }
-      });
+      });*/
+          // Actualizar localmente el pedido
+      const pedidoActualizado = {
+        ...pedidoSeleccionado,
+        ruc: rucCliente,
+        razon_social: razonSocial
+      };
+
+      // Emitir factura
+      emitirFactura(pedidoActualizado);
     } catch {
       toast.error('Error actualizando datos del cliente');
     }
@@ -116,8 +125,8 @@ export default function Facturas() {
     try {
       await api.post('/facturas', {
         pedido_id: pedido.id,
-        ruc_cliente: pedido.cliente.ruc,
-        razon_social: pedido.cliente.razon_social,
+        ruc_cliente: pedido.ruc,
+        razon_social: pedido.razon_social,
         total: pedido.total
       });
       toast.success('Factura emitida correctamente');

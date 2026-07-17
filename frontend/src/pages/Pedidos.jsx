@@ -160,7 +160,7 @@ export default function Pedidos() {
                 <td>{p.id}</td>
                 <td>{p.cliente}</td>
                 <td>{p.usuario}</td>
-                <td>S/.{p.total}</td>   
+                <td>S/. {p.total}</td>   
                 <td>{p.estado_pedido}</td>
                 <td>{p.pagos?.metodo_pago ? p.pagos?.metodo_pago : 'No especificado'}</td>
                 <td>
@@ -284,6 +284,7 @@ export default function Pedidos() {
               <div className="modal-body">
                 <p><strong>Cliente:</strong> {pedidoDetalle.cliente}</p>
                 <p><strong>Usuario:</strong> {pedidoDetalle.usuario}</p>
+                <p><strong>Fecha y hora:</strong> {pedidoDetalle.fecha}</p>
 
                 <table className="table">
                   <thead>
@@ -295,8 +296,8 @@ export default function Pedidos() {
                         <tr key={d.id}>
                           <td>{d.producto?.nombre || 'Producto eliminado'}</td>
                           <td>{d.cantidad}</td>
-                          <td>S/.{parseFloat(d.precio_unitario || 0).toFixed(2)}</td>
-                          <td>S/.{parseFloat((d.precio_unitario * d.cantidad)|| 0).toFixed(2)}</td>
+                          <td>S/. {parseFloat(d.precio_unitario || 0).toFixed(2)}</td>
+                          <td>S/. {parseFloat((d.precio_unitario * d.cantidad)|| 0).toFixed(2)}</td>
                         </tr>
                       ))
                     ) : (
@@ -305,7 +306,7 @@ export default function Pedidos() {
                   </tbody>
                 </table>
 
-                <p><strong>Sub Total:</strong> S/.{parseFloat(pedidoDetalle.total || 0).toFixed(2)}</p>
+                <p><strong>Sub Total:</strong> S/. {parseFloat(pedidoDetalle.total || 0).toFixed(2)}</p>
                 
               </div>
               <div className="modal-footer">

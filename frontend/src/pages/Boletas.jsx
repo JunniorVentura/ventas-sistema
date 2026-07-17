@@ -83,29 +83,39 @@ export default function Boletas() {
   const confirmarDNI = async () => {
     if (!puedeEmitir) return;
 
-    if (!dniCliente || dniCliente.length !== 8 || !/^\d{8}$/.test(dniCliente)) {
+    // Validación del DNI
+    if (!dniCliente || !/^\d{8}$/.test(dniCliente)) {
       return toast.warning('Ingrese un DNI válido de 8 dígitos numéricos');
     }
 
     try {
-      await api.put(`/clientes/${pedidoSeleccionado.cliente.id}`, {
-        dni: dniCliente
-      });
+      // Actualizar DNI del cliente
+      await api.put(`/clientes/${pedidoSeleccionado.cliente_id}`, { dni: dniCliente });
 
+      // Cerrar modal
       setMostrarModalDNI(false);
-      emitirBoleta({ ...pedidoSeleccionado, cliente: { ...pedidoSeleccionado.cliente, dni: dniCliente } });
+
+      // Actualizar localmente el pedido con el nuevo DNI
+      const pedidoActualizado = {
+        ...pedidoSeleccionado,
+        dni: dniCliente // actualizamos directamente el DNI en el pedido
+      };
+      // Emitir boleta
+      emitirBoleta(pedidoActualizado);
+
     } catch {
       toast.error('Error actualizando DNI del cliente');
     }
   };
 
+
   const emitirBoleta = async (pedido) => {
     try {
       await api.post('/boletas', {
         pedido_id: pedido.id,
-        cliente_id: pedido.cliente.id, // <-- nuevo
-        dni_cliente: pedido.cliente.dni,        // <-- cambia de dni_cliente a dni
-        nombre_cliente: pedido.cliente.nombre,
+        /*cliente_id: pedido.cliente.id, // <-- nuevo*/
+        dni_cliente: pedido.dni,        // <-- cambia de dni_cliente a dni
+        nombre_cliente: pedido.cliente,
         total: pedido.total
       });
       toast.success('Boleta emitida');

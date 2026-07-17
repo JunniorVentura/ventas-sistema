@@ -101,7 +101,8 @@ class ReportePdfController extends Controller
             ->get();
 
         return $this->generarPdf('reportes.pagos_verificados', [
-            'pagos' => $pagos
+            'pagos' => $pagos,
+            'estado' => $estado // <-- pasamos el estado a la vista
         ], "reporte_pagos_{$estado}");
     }
 

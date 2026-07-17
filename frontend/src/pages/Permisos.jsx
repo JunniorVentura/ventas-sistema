@@ -129,7 +129,7 @@ export default function Permisos() {
 
   return (
     <div className="container mt-4">
-      <h4 className="mb-3">{editando ? 'Editar Permiso' : 'Nuevo Permiso'}</h4>
+      <h4 className="mb-3">{editando ? 'Editar Permiso' : 'Permisos'}</h4>
 
       {(puedeCrear || puedeEditar) && (
         <form onSubmit={handleSubmit} className="mb-4">
@@ -188,7 +188,7 @@ export default function Permisos() {
       </div>
       {/*Select para paginación*/}
       <div className="mb-3 d-flex align-items-center">
-        <label className="me-2">Stock por página:</label>
+        <label className="me-2">Permisos por página:</label>
         <select
           className="form-select w-auto"
           value={porPagina}
